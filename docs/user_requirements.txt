@@ -24,14 +24,6 @@
 # 8. The app is modelled using: Level 0 data flow diagram, 
 #    Structure chart & Data dictionary
 
-USER REQUIREMENTS
-    bionic reading accessibility features
-    the 𝓼𝓵𝓸𝓹 button
-    search function
-    
-    whatever, go my scarab.
-
-
 SECURITY REQUIREMENTS
     2FA
     𝓼𝓵𝓸𝓹

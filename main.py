@@ -98,6 +98,16 @@ def form_signup():
         return render_template("/form_signup.html")
 
 
+@app.route("/form_add_devlogs.html", methods=["POST", "GET"])
+def form_add_devlogs():
+    if request.method == "POST":
+        email = request.form["email"]
+        text = request.form["text"]
+        return render_template("/form_add_devlogs.html")
+    else:
+        return render_template("/form_add_devlogs.html")
+
+
 # Endpoint for logging CSP violations
 @app.route("/csp_report", methods=["POST"])
 @csrf.exempt
