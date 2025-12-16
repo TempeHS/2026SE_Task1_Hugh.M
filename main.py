@@ -72,7 +72,7 @@ def privacy():
 def form_login():
     if request.method == "POST":
         un = request.form.get("email", "").strip()
-        pwd = request.form.get("password", "").strip()
+        pwd = request.form.get("password", "")
         loggedin = dbHandler.login(un, pwd)
         if loggedin:
             session["login"] = True
@@ -88,7 +88,7 @@ def form_signup():
     if request.method == "POST":
         un = request.form.get("email", "").strip()
         pwd = request.form.get("password", "")
-        signedup = dbHandler.login(un, pwd)
+        signedup = dbHandler.signup(un, pwd)
         if signedup:
             return redirect("/form_login.html")
         else:
@@ -105,6 +105,12 @@ def form_add_devlogs():
         return render_template("/form_add_devlogs.html")
     else:
         return render_template("/form_add_devlogs.html")
+
+
+@app.route("/logout.html", methods=["GET"])
+def logout():
+    session.clear()
+    return redirect("/index.html")
 
 
 # Endpoint for logging CSP violations

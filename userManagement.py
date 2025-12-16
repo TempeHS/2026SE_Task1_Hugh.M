@@ -53,9 +53,13 @@ def signup(un, pwd):
         bytes = pwd.encode("utf-8")
         salt = bcrypt.gensalt()
         hash = bcrypt.hashpw(bytes, salt)
-        cur.execute("INSERT INTO user_data (username, password) VALUES (?,?)")
+        cur.execute(
+            "INSERT INTO user_data (username, password) VALUES (?,?)", (un, hash)
+        )
         con.commit()
         con.close()
         return True
     except sql.IntegrityError:
+        print("error")
+        print(un, pwd)
         return False
