@@ -3,6 +3,7 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import jsonify
+from flask import session
 import requests
 from flask_wtf import CSRFProtect
 from flask_csp.csp import csp_header
@@ -67,22 +68,16 @@ def privacy():
     return render_template("/privacy.html")
 
 
-# example CSRF protected form
-@app.route("/form.html", methods=["POST", "GET"])
-def form():
-    if request.method == "POST":
-        email = request.form["email"]
-        text = request.form["text"]
-        return render_template("/form.html")
-    else:
-        return render_template("/form.html")
-
-
 @app.route("/form_login.html", methods=["POST", "GET"])
 def form_login():
     if request.method == "POST":
-        email = request.form["email"]
-        text = request.form["text"]
+        un = request.form.get("email", "").strip()
+        pwd = request.form.get("password", "").strip()
+        loggedin = dbHandler.login(un, pwd)
+        if loggedin:
+            session["login"] = True
+            session["user"] = un
+            return redirect("/index.html")
         return render_template("/form_login.html")
     else:
         return render_template("/form_login.html")
@@ -91,9 +86,13 @@ def form_login():
 @app.route("/form_signup.html", methods=["POST", "GET"])
 def form_signup():
     if request.method == "POST":
-        email = request.form["email"]
-        text = request.form["text"]
-        return render_template("/form_signup.html")
+        un = request.form.get("email", "").strip()
+        pwd = request.form.get("password", "")
+        signedup = dbHandler.login(un, pwd)
+        if signedup:
+            return redirect("/form_login.html")
+        else:
+            return render_template("/form_signup.html")
     else:
         return render_template("/form_signup.html")
 
@@ -102,7 +101,7 @@ def form_signup():
 def form_add_devlogs():
     if request.method == "POST":
         email = request.form["email"]
-        text = request.form["text"]
+        text = request.form["password"]
         return render_template("/form_add_devlogs.html")
     else:
         return render_template("/form_add_devlogs.html")
