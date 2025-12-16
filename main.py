@@ -97,20 +97,30 @@ def form_signup():
         return render_template("/form_signup.html")
 
 
-@app.route("/form_add_devlogs.html", methods=["POST", "GET"])
-def form_add_devlogs():
-    if request.method == "POST":
-        email = request.form["email"]
-        text = request.form["password"]
-        return render_template("/form_add_devlogs.html")
-    else:
-        return render_template("/form_add_devlogs.html")
-
-
 @app.route("/logout.html", methods=["GET"])
 def logout():
     session.clear()
     return redirect("/index.html")
+
+
+@app.route("/form_add_devlogs.html", methods=["POST", "GET"])
+def form_add_devlogs():
+    if request.method == "POST":
+        devname = request.form.get("", "")
+        projname = request.form.get("", "")
+        starttime = request.form.get("datetime-local", "")
+        endtime = request.form.get("datetime-local", "")
+        entrytime = request.form.get("datetime-local", "")
+        workingtime = request.form.get("", "")
+        repo = request.form.get("", "")
+        devnotes = request.form.get("", "")
+    else:
+        return render_template("/form_add_devlogs.html")
+
+
+@app.route("/developer_logs.html")
+def developer_logs():
+    return render_template("/developer_logs.html")
 
 
 # Endpoint for logging CSP violations

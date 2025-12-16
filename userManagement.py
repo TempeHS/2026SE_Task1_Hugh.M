@@ -63,3 +63,16 @@ def signup(un, pwd):
         print("error")
         print(un, pwd)
         return False
+
+def devlogpost(devname, projname, starttime, endtime, entrytime, workingtime, repo, devnotes):
+    try:
+        con = sql.connect("databaseFiles/devlogs.db", check_same_thread=False)
+        cur = con.cursor()
+        cur.execute(
+            "INSERT INTO devlogs (devname,) VALUES (?,?,?,?,?,?,?)"
+        )
+
+
+
+    except:
+        

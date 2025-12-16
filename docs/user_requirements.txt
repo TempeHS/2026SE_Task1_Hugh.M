@@ -10,7 +10,7 @@
 
 # 3. Two Factor Authentication (2FA) and session management
 
-# 4. Data stored in a SQL Database (optional API interface) tables 
+# 4. Data stored in a SQL Database (optional API interface) tables
 #    should be abstracted and joins used to relate queries
 
 # 5. Developer log entries are time/date stamped
