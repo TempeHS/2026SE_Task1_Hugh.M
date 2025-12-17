@@ -106,14 +106,29 @@ def logout():
 @app.route("/form_add_devlogs.html", methods=["POST", "GET"])
 def form_add_devlogs():
     if request.method == "POST":
-        devname = request.form.get("", "")
-        projname = request.form.get("", "")
-        starttime = request.form.get("datetime-local", "")
-        endtime = request.form.get("datetime-local", "")
-        entrytime = request.form.get("datetime-local", "")
-        workingtime = request.form.get("", "")
-        repo = request.form.get("", "")
-        devnotes = request.form.get("", "")
+        dev_name = request.form.get("devname", "").strip()
+        proj_name = request.form.get("projname", "").strip()
+        start_time = request.form.get("starttime", "").strip()
+        end_time = request.form.get("endtime", "").strip()
+        entry_time = request.form.get("entrydate", "").strip()
+        working_time = request.form.get("timeworked", "").strip()
+        repository = request.form.get("repo", "").strip()
+        dev_notes = request.form.get("devnotes", "").strip()
+        if dbHandler.devlogpost(
+            dev_name,
+            proj_name,
+            start_time,
+            end_time,
+            entry_time,
+            working_time,
+            repository,
+            dev_notes
+        ):
+            print("hello :3")
+            return redirect("/developer_logs.html")
+        else:
+            print("devlog failed")
+            return render_template("/form_add_devlogs.html")
     else:
         return render_template("/form_add_devlogs.html")
 
