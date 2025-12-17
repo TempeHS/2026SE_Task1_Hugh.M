@@ -8,8 +8,18 @@ import requests
 from flask_wtf import CSRFProtect
 from flask_csp.csp import csp_header
 import logging
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 import userManagement as dbHandler
+
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_url="memory://",
+)
 
 # Code snippet for logging a message
 # app.logger.critical("message")
@@ -69,6 +79,7 @@ def privacy():
 
 
 @app.route("/form_login.html", methods=["POST", "GET"])
+@limiter.limit("1/second", override_defaults=False)
 def form_login():
     if request.method == "POST":
         un = request.form.get("email", "").strip()
@@ -84,6 +95,7 @@ def form_login():
 
 
 @app.route("/form_signup.html", methods=["POST", "GET"])
+@limiter.limit("1/second", override_defaults=False)
 def form_signup():
     if request.method == "POST":
         un = request.form.get("email", "").strip()
@@ -98,12 +110,14 @@ def form_signup():
 
 
 @app.route("/logout.html", methods=["GET"])
+@limiter.limit("1/second", override_defaults=False)
 def logout():
     session.clear()
     return redirect("/index.html")
 
 
 @app.route("/form_add_devlogs.html", methods=["POST", "GET"])
+@limiter.limit("1/second", override_defaults=False)
 def form_add_devlogs():
     if request.method == "POST":
         dev_name = request.form.get("devname", "").strip()

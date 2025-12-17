@@ -66,16 +66,42 @@ def signup(un, pwd):
 
 
 def devlogpost(
-    dev_name, proj_name, start_time, end_time, entry_time, working_time, repository, dev_notes
+    dev_name, 
+    proj_name, 
+    start_time, 
+    end_time, 
+    entry_time, 
+    working_time, 
+    repository, 
+    dev_notes
 ):
     try: 
+        if dev_name == "":
+            dev_name = None
+        if proj_name == "":
+            proj_name = None
+        if start_time == "":
+            start_time = None
+        if end_time == "":
+            end_time = None
+        if entry_time == "":
+            entry_time = None
+        if working_time == "":
+            working_time = None
+        if repository == "":
+            repository = None
+        if dev_notes == "":
+            dev_notes = None
         con = sql.connect("databaseFiles/devlogs.db", check_same_thread=False)
         cur = con.cursor()
         cur.execute(
-            "INSERT INTO devlogs (devname, projectname, starttime, endtime, entrytime, workingtime, repo, devnotes) VALUES (?,?,?,?,?,?,?,?)", (dev_name, proj_name, start_time, end_time, entry_time, working_time, repository, dev_notes),
+            "INSERT INTO devlogs (devname, projectname, starttime, endtime, entrytime, workingtime, repo, devnotes) VALUES (?,?,?,?,?,?,?,?)", 
+            (dev_name, proj_name, start_time, end_time, entry_time, working_time, repository, dev_notes),
         )
+
         con.commit()
         con.close()
+        return True
     except sql.IntegrityError:
         print("integrityerror")
         return False
