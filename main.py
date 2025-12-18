@@ -14,13 +14,6 @@ from flask_limiter.util import get_remote_address
 import userManagement as dbHandler
 
 
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["200 per day", "50 per hour"],
-    storage_url="memory://",
-)
-
 # Code snippet for logging a message
 # app.logger.critical("message")
 
@@ -35,7 +28,15 @@ logging.basicConfig(
 # Generate a unique basic 16 key: https://acte.ltd/utils/randomkeygen
 app = Flask(__name__)
 app.secret_key = b"_53oi3uriq9pifpff;apl"
+
 csrf = CSRFProtect(app)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+)
+
 
 
 # Redirect index.html to domain root for consistent UX
